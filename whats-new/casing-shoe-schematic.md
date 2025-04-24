@@ -33,15 +33,29 @@ It is possible configure the chart to select the well by available wells list or
 
 ![Casing shoe well configuration](<../.gitbook/assets/image (58).png>)
 
-Also it is possible to configure which visualization will be displayed at the dashboard and the section details at long or short format:
+If the well is selected directly in the widget, without using filters, it is possible to define the source of the data to be displayed. Options include “Execution” (from well parameters), “Design” (from well designs), or “Intervention”.
 
-![Casing shoe chart configuration](<../.gitbook/assets/image (212).png>)
+![Casing Shoe source data configuration](<../.gitbook/assets/image (537).png>)
+
+For the well design, a selector is displayed with the design options registered for the well.
+
+![Casing Shoe source data configuration](<../.gitbook/assets/image (538).png>)
+
+For the interventions, a selector is displayed with the options 'executed' or 'planned'.
+
+![Casing Shoe source data configuration](<../.gitbook/assets/image (539).png>)
 
 If the configuration is selected with dashboard filter it is possible to select the asset at the dashboard:
 
 ![well selection mode with dashboard filter](<../.gitbook/assets/image (475).png>)
 
 ![Well selected with dashboard filter](<../.gitbook/assets/image (398).png>)
+
+It is possible to configure the graph styling by changing the presentation format to mirrored or simple. Additionally, you can choose whether or not to display the lithology and decide if the section details will be presented in a long or short format:
+
+![Casing shoe chart configuration](<../.gitbook/assets/image (212).png>)
+
+![Casing shoe chart configuration](<../.gitbook/assets/image (540).png>)
 
 To show the bit position in real time the bit depth standard channel must be configured and with the data management enabled for the used well:
 
