@@ -39,11 +39,11 @@ If the well is selected directly in the widget, without using filters, it is pos
 
 For the well design, a selector is displayed with the design options registered for the well.
 
-![Casing Shoe source data configuration](<../.gitbook/assets/image (538).png>)
+![Well design selected as source](<../.gitbook/assets/image (538).png>)
 
 For the interventions, a selector is displayed with the options 'executed' or 'planned'.
 
-![Casing Shoe source data configuration](<../.gitbook/assets/image (539).png>)
+![Intervention selected as source](<../.gitbook/assets/image (539).png>)
 
 If the configuration is selected with dashboard filter it is possible to select the asset at the dashboard:
 
@@ -55,7 +55,7 @@ It is possible to configure the graph styling by changing the presentation forma
 
 ![Casing shoe chart configuration](<../.gitbook/assets/image (212).png>)
 
-![Casing shoe chart configuration](<../.gitbook/assets/image (540).png>)
+![Casing shoe chart configuration with simple visualization](<../.gitbook/assets/image (540).png>)
 
 To show the bit position in real time the bit depth standard channel must be configured and with the data management enabled for the used well:
 
@@ -80,11 +80,3 @@ If the well is configured as onshore the surface is displayed instead of water d
 ![Onshore well visualization](<../.gitbook/assets/image (506).png>)
 
 ![Onshore well configured at well parameters tab](<../.gitbook/assets/image (231).png>)
-
-It is possible to configure a well design to compare execution and planned well schematic versions:
-
-![](https://lh5.googleusercontent.com/7JiFe-oPJREmDfLqVy6Xxj9dp2VXb2Cdr7diFAV4MZZh\_gZgSG0bitH4cwQ\_-q9pC326Cfb4Mi\_5\_AaziHOIdTK4v3PxVSjudutZaCkFk4P1eAvOReccFvGnVGxwydLX73u87fe\_a7\_D1raDyA)
-
-Comparison between execution and phase planning data for a well on a dashboard.
-
-![](https://lh6.googleusercontent.com/GqW0AKuVAdfBNdTdvXD6KTM4rJW8pgO-XM0TH9IGEdeiARuylncmNOVzuG026fOdt5\_Y3MTk6YIFQ9atvlEeWwdrSMfV53l3nzgrPtSUoa3Qb\_4Idt9z4S43fEGOaSIV1K71WbN8hWD6YubHKQ)
