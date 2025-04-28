@@ -1,7 +1,7 @@
 # Well casing shoe schematic
 
 {% hint style="info" %}
-plugin-casing-shoe 1.2.0 and plugin-wells 4.0.0 minimum versions required
+plugin-casing-shoe 1.10.5 and plugin-wells 4.1.2 minimum versions required
 {% endhint %}
 
 The casing shoe schematic chart provides a visualization of the transversal section of a well, illustrating the well construction and previewing the bit depth position in real time. The schematic shows casing structures such as liners, slotted liners, lithology, target formations by depth of the casing string.
@@ -9,14 +9,14 @@ The casing shoe schematic chart provides a visualization of the transversal sect
 ![Preview of casing shoe schematic chart with phases and lithology by depth](<../.gitbook/assets/image (354).png>)
 
 {% hint style="warning" %}
-The casing-shoe chart consumes static data from well design overview information at the well parameters tab and the bit depth real time standard channel
+The casing-shoe chart consumes static data from well parameters, well design or intervention and the real time standard channels bit depth and hole depth
 {% endhint %}
 
 Static data used to render the casing shoe schematic at well parameters tab:
 
 ![Well design overview static information used to plot the chart](<../.gitbook/assets/image (17).png>)
 
-Advantages **:**\\
+Advantages **:**
 
 ***
 
