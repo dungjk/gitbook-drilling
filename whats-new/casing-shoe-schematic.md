@@ -1,7 +1,7 @@
 # Well casing shoe schematic
 
 {% hint style="info" %}
-plugin-casing-shoe 1.2.0 and plugin-wells 4.0.0 minimum versions required
+plugin-casing-shoe 1.10.5 and plugin-wells 4.1.2 minimum versions required
 {% endhint %}
 
 The casing shoe schematic chart provides a visualization of the transversal section of a well, illustrating the well construction and previewing the bit depth position in real time. The schematic shows casing structures such as liners, slotted liners, lithology, target formations by depth of the casing string.
@@ -9,14 +9,14 @@ The casing shoe schematic chart provides a visualization of the transversal sect
 ![Preview of casing shoe schematic chart with phases and lithology by depth](<../.gitbook/assets/image (354).png>)
 
 {% hint style="warning" %}
-The casing-shoe chart consumes static data from well design overview information at the well parameters tab and the bit depth real time standard channel
+The casing-shoe chart consumes static data from well parameters, well design or intervention and the real time standard channels bit depth and hole depth
 {% endhint %}
 
 Static data used to render the casing shoe schematic at well parameters tab:
 
 ![Well design overview static information used to plot the chart](<../.gitbook/assets/image (17).png>)
 
-Advantages **:**\\
+Advantages **:**
 
 ***
 
@@ -33,15 +33,29 @@ It is possible configure the chart to select the well by available wells list or
 
 ![Casing shoe well configuration](<../.gitbook/assets/image (58).png>)
 
-Also it is possible to configure which visualization will be displayed at the dashboard and the section details at long or short format:
+If the well is selected directly in the widget, without using filters, it is possible to define the source of the data to be displayed. Options include “Execution” (from well parameters), “Design” (from well designs), or “Intervention”.
 
-![Casing shoe chart configuration](<../.gitbook/assets/image (212).png>)
+![Casing Shoe source data configuration](<../.gitbook/assets/image (537).png>)
+
+For the well design, a selector is displayed with the design options registered for the well.
+
+![Well design selected as source](<../.gitbook/assets/image (538).png>)
+
+For the interventions, a selector is displayed with the options 'executed' or 'planned'.
+
+![Intervention selected as source](<../.gitbook/assets/image (539).png>)
 
 If the configuration is selected with dashboard filter it is possible to select the asset at the dashboard:
 
 ![well selection mode with dashboard filter](<../.gitbook/assets/image (475).png>)
 
 ![Well selected with dashboard filter](<../.gitbook/assets/image (398).png>)
+
+It is possible to configure the graph styling by changing the presentation format to mirrored or simple. Additionally, you can choose whether or not to display the lithology and decide if the section details will be presented in a long or short format:
+
+![Casing shoe chart configuration](<../.gitbook/assets/image (212).png>)
+
+![Casing shoe chart configuration with simple visualization](<../.gitbook/assets/image (540).png>)
 
 To show the bit position in real time the bit depth standard channel must be configured and with the data management enabled for the used well:
 
@@ -66,11 +80,3 @@ If the well is configured as onshore the surface is displayed instead of water d
 ![Onshore well visualization](<../.gitbook/assets/image (506).png>)
 
 ![Onshore well configured at well parameters tab](<../.gitbook/assets/image (231).png>)
-
-It is possible to configure a well design to compare execution and planned well schematic versions:
-
-![](https://lh5.googleusercontent.com/7JiFe-oPJREmDfLqVy6Xxj9dp2VXb2Cdr7diFAV4MZZh\_gZgSG0bitH4cwQ\_-q9pC326Cfb4Mi\_5\_AaziHOIdTK4v3PxVSjudutZaCkFk4P1eAvOReccFvGnVGxwydLX73u87fe\_a7\_D1raDyA)
-
-Comparison between execution and phase planning data for a well on a dashboard.
-
-![](https://lh6.googleusercontent.com/GqW0AKuVAdfBNdTdvXD6KTM4rJW8pgO-XM0TH9IGEdeiARuylncmNOVzuG026fOdt5\_Y3MTk6YIFQ9atvlEeWwdrSMfV53l3nzgrPtSUoa3Qb\_4Idt9z4S43fEGOaSIV1K71WbN8hWD6YubHKQ)
