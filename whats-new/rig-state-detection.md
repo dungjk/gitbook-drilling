@@ -1,71 +1,67 @@
 ---
 description: >-
-  Live provides the rig state detection to help to analyse the current and past
-  well states and safety
+  Live provides an solution that user a finite state machine algorithm to analyze and determine the current and past well states called Rig State
 ---
 
 # Rig State detection
 
 The rig state plugin can be found in the [marketplace](https://marketplace.intelie.com/artifact/plugin-rig-state)
 
-## Operations feed
+## Global Parameters
 
-The activities will be displayed both on the rig and on the well interfaces. They are available under the "Operation Status" tab.
+The global parameters are initially configured with values predefined by the RigState plugin itself, but can be modified by the user. Changing these parameters is reflected in all rigs that do not have a customized set of parameters (Presets), resulting in a global impact on the Live.
 
-![Example of the operations feed](<../.gitbook/assets/image (99).png>)
+### Steps to configure:
 
-{% hint style="warning" %}
-This feature requires that the input standard channels are [identified](../administration/standard-identifiers.md).
-{% endhint %}
-
-In this feed, it is also possible to add, delete and edit operations, even those that were detected automatically.
-
-{% hint style="info" %}
-If the data is normalized by rig, the operations will only be shown on the well interface if there is an active intervention, and vice-versa.
-{% endhint %}
-
-## Configuration
-
-Intelie Live provides two different algorithms for detecting the current drilling activity. It is also possible to add and edit those activities manually. Their configuration is accessed on the Configurations menu, as the image shows.
+1. Access the RigState configuration screen.
 
 ![Rig state configuration menu](https://lh3.googleusercontent.com/Ol9YkUfQfVIwAJrwIzw9\_B4P06J-o2-VYkBwVqPWdDjNBc7yJNSS8G0cW3dAhfnYjx9s0a\_IqlKw-0BnlcEVtD6krm9nWhosiRw81xy\_9ec1nXvAtOMhEb7dDz4QlDTm2kNf9GrP)
 
-For each algorithm, several parameters are available for configuration. It is also possible to change the output operations names and colors.
+2. Find the parameter you wish to update and enter the new value.
 
-There are examples of usage of each algorithm under the "How to use" tab.
+3. Save the changes.
 
-![Example of algorithm configuration](https://lh6.googleusercontent.com/urEknCk2rvoigNXIvRfTB8JRXGrQQ3Db4gg-WazottJmO\_I\_Vae6-fKHBAMn8xNkI8Onei\_i4H3x\_xx4eo2LX-gkFWH2kDflr2oCg-g3AsHS617yAlTvnp2Bp2S-LvKuf\_tQnp8t)
+## Physical Model Configuration - Presets
 
-For the default algorithm, it is also possible to enable and disable the operation auto detection, which populates automatically the operations lists for rigs and wells.
+Presets are sets of customizable hyperparameters for rigs, allowing different rigs to use distinct parameters in the RigState state detection algorithms. By default, each probe receives an initial Preset that reflects the values of the global parameters. Additionally, it is possible to create, duplicate, and delete new Presets as needed.
 
-{% hint style="warning" %}
-With version less than 2.26 the rig state is at plugin-opmode with other nomeclature.&#x20;
-{% endhint %}
+### Steps to use Presets: 
 
-## **Rig state detection configuration by rig**
+#### Create Preset
 
-At the rig menu it is possible to access the _models configuration_ to change the values used by the physical model algorithms to identify the rig state:\
+1. Open the physical model configuration modal.
 
+2. Click the "Create New Preset" button and enter a name for the Preset.
 
-![](https://lh4.googleusercontent.com/REkpOzvf3wvD2A4Prd6GeYtBF3CXzx0LKGEklgSR6lZ4Nr98N711-jxW1GNyS\_xBvPCjqv0AHS3MRbVxs-r5\_R2lCddM\_H099ekKCLks6siQD1hAAxusrA3kuGAoWmPB6nyp578q)
+3. Change the parameters as necessary and save.
 
-It is possible to overwrite only the parameters for the current rig. The parameters that are not overwritten the globally configured values will be used. There are two parameters that are presented as read-only, since they are editable at the Derrick configuration at the rig screen tab:\
-\
+#### Update Preset
 
+1. Open the physical model configuration modal.
 
-![Physical models configuration for Rig state detection](https://lh5.googleusercontent.com/Bs0mC46ASkWnf-AQ3V2SZtWgJZooxx76P4L9YFD\_C2DFJqTvx2UFg0qSVQIFoOsiVEbKnyOV3BX8C9GsA\_PLe8n\_8i4A3SDwfGZwnUf8iNCRcYWL1zE4L1HZvqsPlyQuId-eIpzQ)
+2. Select the Preset you wish to duplicate.
 
-It is also possible to enable and disable the algorithm calculation per rig:
+3. Click the Duplicate button.
 
-![Models configuration at rig parameters tab](<../.gitbook/assets/image (536).png>)
+4. Enter the name of the new Preset.
 
-If the rig is not enabled, a message will be shown at the operation status screen:
+5. Change the parameters as necessary and save the modifications.
 
-![Operation status warning of rig configuration](https://lh6.googleusercontent.com/wLPcm6RK4YNR3qBxOq2cpGsTNvOPKVW2WvUpD2uKUktWh6s1XN0IVgM3BqKnL8VMYcVYVQdburWgyNgp\_LkY39ucg6l57mzwLpgR5elxH9j2b7Ui4qvwh28A4CV7di4ZifRCXxi-)
+#### Delete Preset
 
-Derrick parameters  stand length and pipe length are configurable on the rig screen at the Derrick Information card. If they are not informed the configured global values will be used.
+1. Open the physical model configuration modal.
 
-![Derrick rig state parameters](https://lh5.googleusercontent.com/LixiVD5tgSAzUdM1cpCe0-G5csvXdK1A7rKtRASSn4wXhMQ\_wstEIlhrgDWYWtgvLUWUHAVUVrw4qQD\_gOdIIyxHUOWngvzEG-qOduloUKQ25eqq6ox1V5SMUolwHceBK6cXLyQj)
+2. Select the Preset you wish to delete.
+
+3. Click the Delete button.
+
+4. Confirm the deletion of the Preset.
+
+#### Activate Preset
+
+1. Open the physical model configuration modal.
+
+2. Select the Preset you wish to delete.
 
 ## Pipes functions
 
