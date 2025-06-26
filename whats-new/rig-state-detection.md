@@ -17,55 +17,129 @@ The global parameters are initially configured with values predefined by the Rig
 
 ![Rig state configuration menu](https://lh3.googleusercontent.com/Ol9YkUfQfVIwAJrwIzw9\_B4P06J-o2-VYkBwVqPWdDjNBc7yJNSS8G0cW3dAhfnYjx9s0a\_IqlKw-0BnlcEVtD6krm9nWhosiRw81xy\_9ec1nXvAtOMhEb7dDz4QlDTm2kNf9GrP)
 
-2. Find the parameter you wish to update and enter the new value.
+![Rig state configuration page](<../.gitbook/assets/image (541).png>)
 
-3. Save the changes.
+2. Find the parameter you wish to update and enter the new value and save.
+
+![Rig state configuration page](<../.gitbook/assets/image (542).png>)
 
 ## Physical Model Configuration - Presets
 
 Presets are sets of customizable hyperparameters for rigs, allowing different rigs to use distinct parameters in the RigState state detection algorithms. By default, each probe receives an initial Preset that reflects the values of the global parameters. Additionally, it is possible to create, duplicate, and delete new Presets as needed.
 
+![Physical models configuration modal](<../.gitbook/assets/image (543).png>)
+
 ### Steps to use Presets: 
+
+The Physical Model Configuration modal can be accessed through the Asset Rig configuration dropdown menu.
+
+![Rig config dropdown](<../.gitbook/assets/image (544).png>)
 
 #### Create Preset
 
-1. Open the physical model configuration modal.
+1. Click the "Create New Preset" button and enter a name for the Preset.
 
-2. Click the "Create New Preset" button and enter a name for the Preset.
+![New preset button](<../.gitbook/assets/image (545).png>)
 
-3. Change the parameters as necessary and save.
+![New preset modal](<../.gitbook/assets/image (546).png>)
+
+2. Change the parameters as necessary and save.
+
+![Physical models parameters table](<../.gitbook/assets/image (547).png>)
 
 #### Update Preset
 
-1. Open the physical model configuration modal.
+1. Select the Preset you wish to duplicate.
 
-2. Select the Preset you wish to duplicate.
+![Preset list](<../.gitbook/assets/image (548).png>)
 
-3. Click the Duplicate button.
+2. Click the Duplicate button.
 
-4. Enter the name of the new Preset.
+![Dubplicate preset button](<../.gitbook/assets/image (549).png>)
 
-5. Change the parameters as necessary and save the modifications.
+3. Enter the name of the new Preset.
+
+![Duplicate preset modal](<../.gitbook/assets/image (550).png>)
+
+4. Change the parameters as necessary and save the modifications.
 
 #### Delete Preset
 
-1. Open the physical model configuration modal.
+1. Select the Preset you wish to delete.
 
-2. Select the Preset you wish to delete.
+2. Click the Delete button.
 
-3. Click the Delete button.
+![Delete preset button](<../.gitbook/assets/image (551).png>)
 
-4. Confirm the deletion of the Preset.
+
+3. Confirm the deletion of the Preset.
+
+![Delete preset modal](<../.gitbook/assets/image (552).png>)
 
 #### Activate Preset
 
-1. Open the physical model configuration modal.
+1. Select the preset you wish to activate.
 
-2. Select the Preset you wish to delete.
+2. Click the activate button.
+
+![Activate preset button](<../.gitbook/assets/image (553).png>)
 
 ## Pipes functions
 
-The old opmode functions are still available for compatibility reasons:\
+State detection is performed through Pipes functions that must be used in the Pipes console. Below is an example of a Pipes query to apply the RigState algorithm, according to the configuration of the RigState screen.
+
+```
+-- Be sure that the channels below are configured in "Identification" column in "Standard Channels" page.
+def @@mnemonics: 
+(@@channels.weight_on_bit, 
+@@channels.hole_depth, 
+@@channels.rotary_speed, 
+@@channels.rate_of_penetration, 
+@@channels.bit_depth, 
+@@channels.fluid_flow, 
+@@channels.block_position, 
+@@channels.weight_on_hook,
+@@channels.standpipe,
+@@channels.torque);
+
+def @@event:'SomeEventType':const; -- The 'SomeEventType' should be replaced by type of generated event in Rigs Data Management.
+def @@rigName:'SomeRigName':const; -- The 'SomeRigName' should be replaced by the Rig name.
+
+@@event .timestamp:adjusted_index_timestamp mnemonic!:@@mnemonics
+=> @rig_state_full @@rigName, null,  @@mnemonics
+```
+
+![How to use tab in Rig state Configuration page](<../.gitbook/assets/image (554).png>)
+
+### Available Functions
+
+The Rig State plugin offers the following functions for state calculations:
+
+* @rig_state
+
+This function generates a simplified list of events, presenting only the title of the state and the corresponding color that represents it.
+
+![Rig state pipes function](<../.gitbook/assets/image (558).png>)
+
+![Rig state event](<../.gitbook/assets/image (555).png>)
+
+* @rig_state_full
+
+This function generates a comprehensive list of events, presenting the states in detail. It includes the title of the state, the corresponding color, indicators, parameters used, and information about missing data.
+
+![Rig state full pipes function](<../.gitbook/assets/image (559).png>)
+
+![Rig state event](<../.gitbook/assets/image (556).png>)
+
+* @normalized_indicators
+
+This function calculates all the indicators used by the RigState algorithm based on the normalized events and returns these indicators, along with the parameters used in the calculations.
+
+![Normalized indicators pipe function](<../.gitbook/assets/image (560).png>)
+
+![Rig state event](<../.gitbook/assets/image (557).png>)
+
+The old opmode functions are still available for compatibility reasons:
 
 
 * drilling.normalized\_opmode
