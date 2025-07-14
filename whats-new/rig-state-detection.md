@@ -1,75 +1,145 @@
 ---
 description: >-
-  Live provides the rig state detection to help to analyse the current and past
-  well states and safety
+  Live provides an solution that user a finite state machine algorithm to analyze and determine the current and past well states called Rig State
 ---
 
 # Rig State detection
 
 The rig state plugin can be found in the [marketplace](https://marketplace.intelie.com/artifact/plugin-rig-state)
 
-## Operations feed
+## Global Parameters
 
-The activities will be displayed both on the rig and on the well interfaces. They are available under the "Operation Status" tab.
+The global parameters are initially configured with values predefined by the RigState plugin itself, but can be modified by the user. Changing these parameters is reflected in all rigs that do not have a customized set of parameters (Presets), resulting in a global impact on the Live.
 
-![Example of the operations feed](<../.gitbook/assets/image (99).png>)
+### Steps to configure:
 
-{% hint style="warning" %}
-This feature requires that the input standard channels are [identified](../administration/standard-identifiers.md).
-{% endhint %}
-
-In this feed, it is also possible to add, delete and edit operations, even those that were detected automatically.
-
-{% hint style="info" %}
-If the data is normalized by rig, the operations will only be shown on the well interface if there is an active intervention, and vice-versa.
-{% endhint %}
-
-## Configuration
-
-Intelie Live provides two different algorithms for detecting the current drilling activity. It is also possible to add and edit those activities manually. Their configuration is accessed on the Configurations menu, as the image shows.
+1. Access the RigState configuration screen.
 
 ![Rig state configuration menu](https://lh3.googleusercontent.com/Ol9YkUfQfVIwAJrwIzw9\_B4P06J-o2-VYkBwVqPWdDjNBc7yJNSS8G0cW3dAhfnYjx9s0a\_IqlKw-0BnlcEVtD6krm9nWhosiRw81xy\_9ec1nXvAtOMhEb7dDz4QlDTm2kNf9GrP)
 
-For each algorithm, several parameters are available for configuration. It is also possible to change the output operations names and colors.
+![Rig state configuration page](<../.gitbook/assets/image (541).png>)
 
-There are examples of usage of each algorithm under the "How to use" tab.
+2. Find the parameter you wish to update and enter the new value and save.
 
-![Example of algorithm configuration](https://lh6.googleusercontent.com/urEknCk2rvoigNXIvRfTB8JRXGrQQ3Db4gg-WazottJmO\_I\_Vae6-fKHBAMn8xNkI8Onei\_i4H3x\_xx4eo2LX-gkFWH2kDflr2oCg-g3AsHS617yAlTvnp2Bp2S-LvKuf\_tQnp8t)
+![Rig state configuration page](<../.gitbook/assets/image (542).png>)
 
-For the default algorithm, it is also possible to enable and disable the operation auto detection, which populates automatically the operations lists for rigs and wells.
+## Physical Model Configuration - Presets
 
-{% hint style="warning" %}
-With version less than 2.26 the rig state is at plugin-opmode with other nomeclature.&#x20;
-{% endhint %}
+Presets are sets of customizable hyperparameters for rigs, allowing different rigs to use distinct parameters in the RigState state detection algorithms. By default, each rig receives an initial Preset that reflects the values of the global parameters. Additionally, it is possible to create, duplicate, and delete new Presets as needed.
 
-## **Rig state detection configuration by rig**
+![Physical models configuration modal](<../.gitbook/assets/image (543).png>)
 
-At the rig menu it is possible to access the _models configuration_ to change the values used by the physical model algorithms to identify the rig state:\
+### Steps to use Presets: 
+
+The Physical Model Configuration modal can be accessed through the Asset Rig configuration dropdown menu.
+
+![Rig config dropdown](<../.gitbook/assets/image (544).png>)
+
+#### Create Preset
+
+1. Click the "Create New Preset" button and enter a name for the Preset.
+
+![New preset button](<../.gitbook/assets/image (545).png>)
+
+![New preset modal](<../.gitbook/assets/image (546).png>)
+
+2. Change the parameters as necessary and save.
+
+![Physical models parameters table](<../.gitbook/assets/image (547).png>)
+
+#### Update Preset
+
+1. Select the Preset you wish to duplicate.
+
+![Preset list](<../.gitbook/assets/image (548).png>)
+
+2. Click the Duplicate button.
+
+![Dubplicate preset button](<../.gitbook/assets/image (549).png>)
+
+3. Enter the name of the new Preset.
+
+![Duplicate preset modal](<../.gitbook/assets/image (550).png>)
+
+4. Change the parameters as necessary and save the modifications.
+
+#### Delete Preset
+
+1. Select the Preset you wish to delete.
+
+2. Click the Delete button.
+
+![Delete preset button](<../.gitbook/assets/image (551).png>)
 
 
-![](https://lh4.googleusercontent.com/REkpOzvf3wvD2A4Prd6GeYtBF3CXzx0LKGEklgSR6lZ4Nr98N711-jxW1GNyS\_xBvPCjqv0AHS3MRbVxs-r5\_R2lCddM\_H099ekKCLks6siQD1hAAxusrA3kuGAoWmPB6nyp578q)
+3. Confirm the deletion of the Preset.
 
-It is possible to overwrite only the parameters for the current rig. The parameters that are not overwritten the globally configured values will be used. There are two parameters that are presented as read-only, since they are editable at the Derrick configuration at the rig screen tab:\
-\
+![Delete preset modal](<../.gitbook/assets/image (552).png>)
 
+#### Activate Preset
 
-![Physical models configuration for Rig state detection](https://lh5.googleusercontent.com/Bs0mC46ASkWnf-AQ3V2SZtWgJZooxx76P4L9YFD\_C2DFJqTvx2UFg0qSVQIFoOsiVEbKnyOV3BX8C9GsA\_PLe8n\_8i4A3SDwfGZwnUf8iNCRcYWL1zE4L1HZvqsPlyQuId-eIpzQ)
+1. Select the preset you wish to activate.
 
-It is also possible to enable and disable the algorithm calculation per rig:
+2. Click the activate button.
 
-![Models configuration at rig parameters tab](<../.gitbook/assets/image (536).png>)
-
-If the rig is not enabled, a message will be shown at the operation status screen:
-
-![Operation status warning of rig configuration](https://lh6.googleusercontent.com/wLPcm6RK4YNR3qBxOq2cpGsTNvOPKVW2WvUpD2uKUktWh6s1XN0IVgM3BqKnL8VMYcVYVQdburWgyNgp\_LkY39ucg6l57mzwLpgR5elxH9j2b7Ui4qvwh28A4CV7di4ZifRCXxi-)
-
-Derrick parameters  stand length and pipe length are configurable on the rig screen at the Derrick Information card. If they are not informed the configured global values will be used.
-
-![Derrick rig state parameters](https://lh5.googleusercontent.com/LixiVD5tgSAzUdM1cpCe0-G5csvXdK1A7rKtRASSn4wXhMQ\_wstEIlhrgDWYWtgvLUWUHAVUVrw4qQD\_gOdIIyxHUOWngvzEG-qOduloUKQ25eqq6ox1V5SMUolwHceBK6cXLyQj)
+![Activate preset button](<../.gitbook/assets/image (553).png>)
 
 ## Pipes functions
 
-The old opmode functions are still available for compatibility reasons:\
+State detection is performed through Pipes functions that must be used in the Pipes console. Below is an example of a Pipes query to apply the RigState algorithm, according to the configuration of the RigState screen.
+
+```
+-- Be sure that the channels below are configured in "Identification" column in "Standard Channels" page.
+def @@mnemonics: 
+(@@channels.weight_on_bit, 
+@@channels.hole_depth, 
+@@channels.rotary_speed, 
+@@channels.rate_of_penetration, 
+@@channels.bit_depth, 
+@@channels.fluid_flow, 
+@@channels.block_position, 
+@@channels.weight_on_hook,
+@@channels.standpipe,
+@@channels.torque);
+
+def @@event:'SomeEventType':const; -- The 'SomeEventType' should be replaced by type of generated event in Rigs Data Management.
+def @@rigName:'SomeRigName':const; -- The 'SomeRigName' should be replaced by the Rig name.
+
+@@event .timestamp:adjusted_index_timestamp mnemonic!:@@mnemonics
+=> @rig_state_full @@rigName, null,  @@mnemonics
+```
+
+![How to use tab in Rig state Configuration page](<../.gitbook/assets/image (554).png>)
+
+### Available Functions
+
+The Rig State plugin offers the following functions for state calculations:
+
+* @rig_state
+
+This function generates a simplified list of events, presenting only the title of the state and the corresponding color that represents it.
+
+![Rig state pipes function](<../.gitbook/assets/image (558).png>)
+
+![Rig state event](<../.gitbook/assets/image (555).png>)
+
+* @rig_state_full
+
+This function generates a comprehensive list of events, presenting the states in detail. It includes the title of the state, the corresponding color, indicators, parameters used, and information about missing data.
+
+![Rig state full pipes function](<../.gitbook/assets/image (559).png>)
+
+![Rig state event](<../.gitbook/assets/image (556).png>)
+
+* @normalized_indicators
+
+This function calculates all the indicators used by the RigState algorithm based on the normalized events and returns these indicators, along with the parameters used in the calculations.
+
+![Normalized indicators pipe function](<../.gitbook/assets/image (560).png>)
+
+![Rig state event](<../.gitbook/assets/image (557).png>)
+
+The old opmode functions are still available for compatibility reasons:
 
 
 * drilling.normalized\_opmode
