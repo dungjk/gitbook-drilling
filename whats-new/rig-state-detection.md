@@ -25,7 +25,7 @@ The global parameters are initially configured with values predefined by the Rig
 
 ## Physical Model Configuration - Presets
 
-Presets are sets of customizable hyperparameters for rigs, allowing different rigs to use distinct parameters in the RigState state detection algorithms. By default, each probe receives an initial Preset that reflects the values of the global parameters. Additionally, it is possible to create, duplicate, and delete new Presets as needed.
+Presets are sets of customizable hyperparameters for rigs, allowing different rigs to use distinct parameters in the RigState state detection algorithms. By default, each rig receives an initial Preset that reflects the values of the global parameters. Additionally, it is possible to create, duplicate, and delete new Presets as needed.
 
 ![Physical models configuration modal](<../.gitbook/assets/image (543).png>)
 
