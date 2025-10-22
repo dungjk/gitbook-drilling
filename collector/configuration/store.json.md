@@ -124,9 +124,9 @@ Below is a simple example configuration in store.json file for WITS0 to WITSML l
 | units     | Uses the UOM as a value            | no                                   |               |
 | types*     | Uses the type as a value           |  yes |[ string \| double \| long ]|
 
-### Configuring WITS0 client or server
+### Configuring WITS0 client
 
-More details to configure CSV client to send data to Liverig collector, click [here](../protocols/csv.md)
+More details to configure WITS0 client to gather data to Liverig collector, see [WITS protocol](../protocols/wits.md)
 
 For `store.json` file example above the `sources.xml` file should be something like this:  
 
@@ -332,12 +332,9 @@ Given a CSV with 10 columns configured schema should be something like this
 
 ```json
 ...
-
   "rigs": {
     "MY_CSV_CLIENT": {
-
       ...
-
       "tags": {
         "CHANNEL 1": "CHANNEL 1",
         "CHANNEL 2": "CHANNEL 2",
@@ -385,7 +382,7 @@ All channel types **MUST** be string. CSV parser only recognizes **string** obje
 
 ### Configuring CSV client
 
-More details to configure CSV client to send data to Liverig collector, see [CSV Protocol](../protocols/csv.md)
+More details to configure CSV client to gather data to Liverig collector, see [CSV Protocol](../protocols/csv.md)
 
 For _store.json_ file example above _sources.xml_ file should be something like this:  
 
@@ -469,6 +466,8 @@ Below is a simple example configuration in store.json file for OPC to WITSML log
 ```
 
 Each object under rigs is related to an **OPC-DA** or **OPC-UA** source, linking the `store.json` and `sources.xml` files through their **Rig Name**. 
+
+More details to configure OPC client to gather data to Liverig collector, see [OPC Protocol](../protocols/opc.md)
 
 The `alias` is used as a key reference for tags, units and types values.&#x20;
 
