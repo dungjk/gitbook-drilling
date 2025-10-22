@@ -168,6 +168,7 @@
   * [MODBUS](collector/protocols/modbus.md)
   * [MQTT](collector/protocols/mqtt.md)
   * [CSV](collector/protocols/csv.md)
+  * [TSV](collector/protocols/tsv.md)
   * [RAW](collector/protocols/raw.md)
 * [Protocol conversion](collector/protocol-conversion.md)
 * [Configuration](collector/configuration/README.md)
