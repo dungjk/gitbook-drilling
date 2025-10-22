@@ -467,8 +467,6 @@ Below is a simple example configuration in store.json file for OPC to WITSML log
 
 Each object under rigs is related to an **OPC-DA** or **OPC-UA** source, linking the `store.json` and `sources.xml` files through their **Rig Name**. 
 
-More details to configure OPC client to gather data to Liverig collector, see [OPC Protocol](../protocols/opc.md)
-
 The `alias` is used as a key reference for tags, units and types values.&#x20;
 
 | Name      | Description                        | Required                             | Default value |
@@ -480,6 +478,8 @@ The `alias` is used as a key reference for tags, units and types values.&#x20;
 | types     | Uses the type as a value           | no (if OPC to WITSML converter, yes) | double        |
 
 **NOTE**: For **OPC-UA** sources, the tag field should be written as the following pattern: `ns=<namespaceindex>;<type>=<value>`
+
+More details to configure OPC client to gather data to Liverig collector, see [OPC-DA](../protocols/opc-da.md) and [OPC-UA](../protocols/opc-ua.md).
 
 ### OPC complex type and date time tags
 
