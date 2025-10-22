@@ -6,7 +6,7 @@ Besides the units and data type enrichment, LiveRig Collector also can be config
 
 The `store.json` file is also responsible for an additional collector feature known as [WITSML protocol conversion](./../protocol-conversion.md). These optional fields are: `database`, `endpoint`, `limit` and `purge`. Once the `endpoint` and `database` are configured, a basic WITSML server will start backed by a PostgreSQL database to keep the data and enable the WITSML queries on top of it.
 
-### Database service
+## Database service
 
 ```json
 {
@@ -19,42 +19,34 @@ The `store.json` file is also responsible for an additional collector feature kn
     }
   },
   "endpoint": "http://0.0.0.0:1234/witsml/store",
-  "limit": 1234,
+  "limit": 5000,
   "purge": "300000",
-  ...
+  //...
 }
 ```
 
 **url**: JDBC string connection for the database service endpoint, typically a PostgreSQL local server colocated at same LiveRig Collector hardware.
 
-#### TimescaleDB support
+### TimescaleDB support
 
-In case the `timescale: true` is set, it assumes the PostgreSQL is installed using the TimescaleDB extension. More information at https://www.tigerdata.com/timescaledb.
+In case the `timescale: true` is set, it assumes PostgreSQL is installed using the TimescaleDB extension. More information at https://www.tigerdata.com/timescaledb.
 
 **Chunk Interval**: Hypertables in TimescaleDB are automatically partitioned into smaller pieces, called chunks. Each chunk contains a specific amount of data, defined by chunk interval configuration. Behind the scenes, each chunk is the smallest portion of data that can be compressed and decompressed. timescale.chunk_interval setting is expressed in milliseconds, and defaults to 7 days (604800000 ms).
 
 **Compress After**: Represents the amount of time after which the hypertable chunks will be automatically compressed in the background. A recurrent policy is set to compress every chunk containing data older than this configuration. timescale.compress_after setting is also expressed in milliseconds, and defaults to 1 hour (3600000 ms).
 
-### WITSML Store endpoint
+## WITSML Store endpoint
 
 ```json
-{
-...
-  "endpoint": "http://0.0.0.0:1234/witsml/store",
-...
-}
+  "endpoint": "http://0.0.0.0:1234/witsml/store"
 ```
 
 This field is required to expose WITSML Store Server endpoint.
 
-### Limit
+## Limit
 
 ```json
-{
-...
-  "limit": 5000,
-...
-}
+  "limit": 5000
 ```
 
 The **limit** field is not required. Its purpose is to limit the number of values to be returned on a request to the WITSML store. The _default_ value is 1000.
@@ -63,11 +55,7 @@ The **limit** field is not required. Its purpose is to limit the number of value
 ## Purge
 
 ```json
-{
-...
-   "purge": "300000",
-...
-}
+   "purge": "300000"
 ```
 
 The **purge** field is not required. Its purpose is to set a period to purge old values from the WITSML store (to avoid the collector's disk space exhaustion). This is calculated using the following formula: CURRENT_TIMESTAMP - PURGE_INTERVAL. This interval is used in seconds. Example: If the purge field value is 1000, that means that values older than 1000 seconds from the current time will be deleted. The default state of this feature is off.
@@ -80,7 +68,7 @@ WITS (WELLSITE INFORMATION TRANSFER SPECIFICATION) is an industry standard data 
 
 The section below guides the administrator to configure a simple WITS0 to WITSML 1.4.1.1 log.
 
-### Simple example configuration in store.json file for CSV to WITSML log converter
+Below is a simple example configuration in store.json file for CSV to WITSML log converter
 
 ```json
 {
