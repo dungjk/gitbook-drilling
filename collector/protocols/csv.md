@@ -22,6 +22,16 @@ The date time pattern can be customized to detect seconds, milliseconds, or text
 
 Each column in the CSV file will be interpreted as a channel value and the first column will be the date time index for each row in the dataset.
 
+#### Separator
+
+The **Separator** field allows users to define custom delimiters for CSV files, providing greater flexibility in processing different input formats.
+
+Starting from **LiveRig 5.29.0** and **LiveRig Collector 5.28.0**, users can configure the field separator according to the system’s requirements or third-party data sources. The default separator is a **comma** (`,`), but it can be changed to other characters such as a **semicolon** (`;`), **tab** (`\t`), **pipe** (`|`), or any other delimiter.
+
+This configuration ensures proper data interpretation, especially when working with sources that use non-standard delimiters.
+
+<figure><img src="../../.gitbook/assets/liverig-csv-separator-config.png" alt=""><figcaption><p>CSV field separator configuration</p></figcaption></figure>
+
 #### Access endpoint
 
 The CSV source can execute in client or server mode. Third parties applications may push data into the LiveRig CSV source endpoint.
@@ -63,6 +73,19 @@ Locally in the LiveRig Collector machine, the [`sources.xml` can be configured](
 </source>
 ```
 
+This other example is the same as the above one but with a custom separator `\t` instead of the default `,`
+
+```markup
+<source>
+	<name>CSV endpoint</name>
+	<mode>server</mode>
+	<rig_name>my_rig</rig_name>
+	<service_company>my_company</service_company>
+	<protocol_name>csv;separator=\t</protocol_name>
+	<endpoint>tcp://0.0.0.0:9873/</endpoint>
+</source>
+```
+
 This other example reads the first COM port in a Unix system available at /dev/ttyS0 to watch for events in CSV format.
 
 ```markup
@@ -75,3 +98,7 @@ This other example reads the first COM port in a Unix system available at /dev/t
 	<endpoint>serial:///dev/ttyS0?baudRate=9600</endpoint>
 </source>
 ```
+
+{% hint style="info" %}
+Each line of the input data stream should end with the '\n' (the end of line character). The maximum allowed line length in characters is 4,194,304. This limit was imposed to avoid huge lines that could extrapolate the Live event maximum size or extrapolate the internal implementation buffer capacity.
+{% endhint %}
