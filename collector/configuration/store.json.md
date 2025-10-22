@@ -68,7 +68,7 @@ WITS (WELLSITE INFORMATION TRANSFER SPECIFICATION) is an industry standard data 
 
 The section below guides the administrator to configure a simple WITS0 to WITSML 1.4.1.1 log.
 
-Below is a simple example configuration in store.json file for CSV to WITSML log converter
+Below is a simple example configuration in store.json file for WITS0 to WITSML log converter:
 
 ```json
 {
@@ -161,7 +161,6 @@ Once created you can use _WITSML browser_ to access WITSML log (see example belo
 
 ![wits0-to-witsml-browser](../../.gitbook/assets/wits-to-witsml/wits-witsml-log-browser-example.gif)
 
-
 ### Limitations
 
 This WITS0 to WITSML Log converted has limitation:
@@ -173,7 +172,7 @@ This WITS0 to WITSML Log converted has limitation:
 
 To configure a simple CSV to WITSML log converter
 
-### Simple example configuration in store.json file for CSV to WITSML log converter
+Below is a simple example configuration in store.json file for CSV to WITSML log converter:
 
 ```json
 {
@@ -431,7 +430,9 @@ This CSV to WITSML Log converted has limitation:
 
 ## OPC data stream 
 
-The LiveRig Collector depends on the Node Ids (Tags) values, among other information, to query OPC server properly. These values are mapped in the following JSON format, as below:
+The LiveRig Collector depends on the Node Ids (Tags) values, among other information, to query OPC server properly. 
+
+Below is a simple example configuration in store.json file for OPC to WITSML log converter:
 
 ```json
 {
