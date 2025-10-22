@@ -1,12 +1,74 @@
-The `store.json` file is used by LiveRig Collector to enrich some kinds of  basic source data streams configured at `sources.xml`.
+The `store.json` file is used by LiveRig Collector to enrich metadata (i.e units and data types) over the basic source data streams configured at `sources.xml`.
 
-In LiveRig Collector, two basic source data streams accept unit enrichment and exposure as WITSML, they are: CSV and OPC. 
+Besides the units and data type enrichment, LiveRig Collector also can be configured as a protocol converter by translating the data layout from the WITS0, CSV or OPC into a WITSML endpoint. 
 
-## CSV data stream
+# Store database and retention settings
 
-To configure a simple CSV to WITSML log converter
+The `store.json` file is also responsible for an additional collector feature known as [WITSML protocol conversion](./../protocol-conversion.md). These optional fields are: `database`, `endpoint`, `limit` and `purge`. Once the `endpoint` and `database` are configured, a basic WITSML server will start backed by a PostgreSQL database to keep the data and enable the WITSML queries on top of it.
 
-_**Simple example configuration in store.json file for CSV to WITSML log converter**_
+## Database service
+
+```json
+{
+  "database": {
+    "url": "jdbc:postgresql://localhost:5432/?user=root&password=rootpassword",
+    "parameters": {
+        "timescale": true,
+        "timescale.chunk_interval": 604800000,
+        "timescale.compress_after": 3600000
+    }
+  },
+  "endpoint": "http://0.0.0.0:1234/witsml/store",
+  "limit": 5000,
+  "purge": "300000",
+  //...
+}
+```
+
+**url**: JDBC string connection for the database service endpoint, typically a PostgreSQL local server colocated at same LiveRig Collector hardware.
+
+### TimescaleDB support
+
+In case the `timescale: true` is set, it assumes PostgreSQL is installed using the TimescaleDB extension. More information at https://www.tigerdata.com/timescaledb.
+
+**Chunk Interval**: Hypertables in TimescaleDB are automatically partitioned into smaller pieces, called chunks. Each chunk contains a specific amount of data, defined by chunk interval configuration. Behind the scenes, each chunk is the smallest portion of data that can be compressed and decompressed. timescale.chunk_interval setting is expressed in milliseconds, and defaults to 7 days (604800000 ms).
+
+**Compress After**: Represents the amount of time after which the hypertable chunks will be automatically compressed in the background. A recurrent policy is set to compress every chunk containing data older than this configuration. timescale.compress_after setting is also expressed in milliseconds, and defaults to 1 hour (3600000 ms).
+
+## WITSML Store endpoint
+
+```json
+  "endpoint": "http://0.0.0.0:1234/witsml/store"
+```
+
+This field is required to expose WITSML Store Server endpoint.
+
+## Limit
+
+```json
+  "limit": 5000
+```
+
+The **limit** field is not required. Its purpose is to limit the number of values to be returned on a request to the WITSML store. The _default_ value is 1000.
+
+
+## Purge
+
+```json
+   "purge": "300000"
+```
+
+The **purge** field is not required. Its purpose is to set a period to purge old values from the WITSML store (to avoid the collector's disk space exhaustion). This is calculated using the following formula: CURRENT_TIMESTAMP - PURGE_INTERVAL. This interval is used in seconds. Example: If the purge field value is 1000, that means that values older than 1000 seconds from the current time will be deleted. The default state of this feature is off.
+
+# Protocols translation
+
+## WITS0 data stream
+
+WITS (WELLSITE INFORMATION TRANSFER SPECIFICATION) is an industry standard data communication format. More information at https://www.petrospec-technologies.com/resource/wits_doc.htm.
+
+The section below guides the administrator to configure a simple WITS0 to WITSML 1.4.1.1 log.
+
+Below is a simple example configuration in store.json file for WITS0 to WITSML log converter:
 
 ```json
 {
@@ -19,7 +81,111 @@ _**Simple example configuration in store.json file for CSV to WITSML log convert
     }
   },
   "endpoint": "http://0.0.0.0:1234/witsml/store",
-  "limit": 1234,
+  "limit": 5000,
+  "purge": "300000",
+  "rigs": {
+    "wits_0": {
+      "name": "wits_Name",
+      "timestamp": "TIME",
+      "tags": {
+        "date": "DATE",
+        "Activity Code": "ACTCOD",
+        "Time": "TIME",
+        "depth hole measure": "DEPTMEAS",
+        "Well id": "WELLID",
+        "depth bit (vertical)": "DEPTBITV"
+      },
+      "units": {
+        "date": "",
+        "Activity Code": "",
+        "Time": "min",
+        "depth hole measure": "m",
+        "Well id": "",
+        "depth bit (vertical)": "m"
+      },
+      "types": {
+        "date": "long",
+        "Activity Code": "long",
+        "Time": "long",
+        "depth hole measure": "double",
+        "Well id": "string",
+        "depth bit (vertical)": "double"
+      }
+    }
+  }
+}
+```
+
+| Name      | Description                        | Required                             | Default value |
+| --------- | ---------------------------------- | ------------------------------------ | ------------- |
+| name      | An identifier for this rig         | **yes**                              |               |
+| timestamp | A timestamp field identifier       | no                                   | TIMESTAMP     |
+| tags      | Uses the Tag (logCurveInfo) as a value.  | **yes**                              |               |
+| units     | Uses the UOM as a value            | no                                   |               |
+| types*     | Uses the type as a value           |  yes |[ string \| double \| long ]|
+
+### Configuring WITS0 client
+
+More details to configure WITS0 client to gather data to Liverig collector, see [WITS protocol](../protocols/wits.md)
+
+For `store.json` file example above the `sources.xml` file should be something like this:  
+
+```xml
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!-- Saved 2024-09-23 15:59:45.164 by Live's user: admin from web interface -->
+
+<sources>
+    <source>
+        <id>1</id>
+        <name>witsA</name>
+        <enabled>true</enabled>
+        <mode>client</mode>
+        <rig_name>wits_0</rig_name>
+        <service_company>intelie</service_company>
+        <protocol_name>wits;0</protocol_name>
+        <endpoint>tcp://wits-data-generator:7778</endpoint>
+        <tls_auth>false</tls_auth>
+        <requests/>
+    </source>
+</sources>
+
+```
+
+### Accessing converted WITS0 to WITSML 1.4.1.1 Log
+
+Go to collectors->collector1->sources and click "Create new source" (See below)
+
+![wits0-to-witsml](../../.gitbook/assets/wits-to-witsml/wits-witsml-log-converter-example.gif)
+
+Once created you can use _WITSML browser_ to access WITSML log (see example below)
+
+![wits0-to-witsml-browser](../../.gitbook/assets/wits-to-witsml/wits-witsml-log-browser-example.gif)
+
+### Limitations
+
+This WITS0 to WITSML Log converted has limitation:
+
+- Ignores _queryOptions_ queries, i.e. _queryOptions: returnElements=all_
+
+
+## CSV data stream
+
+To configure a simple CSV to WITSML log converter
+
+Below is a simple example configuration in store.json file for CSV to WITSML log converter:
+
+```json
+{
+  "database": {
+    "url": "jdbc:postgresql://postgres:5432/?user=postgres&password=postgres",
+    "parameters": {
+      "timescale": false,
+      "timescale.chunk_interval": 604800000,
+      "timescale.compress_after": 3600000
+    }
+  },
+  "endpoint": "http://0.0.0.0:1234/witsml/store",
+  "limit": 5000,
   "purge": "300000",
   "rigs": {
     "10000": {
@@ -74,75 +240,6 @@ _**Simple example configuration in store.json file for CSV to WITSML log convert
 | units     | Uses the UOM as a value            | no                                   |               |
 | types     | Uses the type as a value           |  yes | string        |
 
-### Database service
-
-In _store.json_ file
-
-```json
-{
-...
-
-"database": {
-    "url": "jdbc:postgresql://localhost:5432/?user=root&password=rootpassword",
-    "parameters": {
-        "timescale": true,
-        "timescale.chunk_interval": 604800000,
-        "timescale.compress_after": 3600000
-    }
-...
-}
-```
-
-**url**: Database service endpoint
-
-#### **for TimescaleDB enabled**:
-
-**Chunk Interval**: Hypertables in TimescaleDB are automatically partitioned into smaller pieces, called chunks. Each chunk contains a specific amount of data, defined by chunk interval configuration. Behind the scenes, each chunk is the smallest portion of data that can be compressed and decompressed. timescale.chunk_interval setting is expressed in milliseconds, and defaults to 7 days (604800000 ms).
-
-**Compress After**: Represents the amount of time after which the hypertable chunks will be automatically compressed in the background. A recurrent policy is set to compress every chunk containing data older than this configuration. timescale.compress_after setting is also expressed in milliseconds, and defaults to 1 hour (3600000 ms).
-
-### WITSML Store endpoint
-
-```json
-{
-...
-
-  "endpoint": "http://0.0.0.0:1234/witsml/store",
-
-...
-}
-```
-
-This field is required to expose WITSML Store Server endpoint
-
-### Limit
-
-```json
-{
-...
-
-  "limit": 1234,
-
-...
-}
-```
-
-_limit_ field is not required. Its purpose is to limit the number of values to be returned on a request to the WITSML store. The _default_ value is 1000.
-
-
-## Purge
-
-```json
-{
-...
-
-   "purge": "300000",
-
-...
-}
-```
-
-Purge field is not required field. Its purpose is to set a period to purge old values from the WITSML store (to avoid the collector's disk filling up). This is calculated using the following formula: CURRENT_TIMESTAMP - PURGE_INTERVAL. This interval is used in seconds. Example: If the purge field value is 1000, that means that values older than 1000 seconds from the current time will be deleted. The default state of this feature is off.
 
 ### Rigs
 
@@ -235,12 +332,9 @@ Given a CSV with 10 columns configured schema should be something like this
 
 ```json
 ...
-
   "rigs": {
     "MY_CSV_CLIENT": {
-
       ...
-
       "tags": {
         "CHANNEL 1": "CHANNEL 1",
         "CHANNEL 2": "CHANNEL 2",
@@ -288,7 +382,7 @@ All channel types **MUST** be string. CSV parser only recognizes **string** obje
 
 ### Configuring CSV client
 
-More details to configure CSV client to send data to Liverig collector, click [here](../protocols/csv.md)
+More details to configure CSV client to gather data to Liverig collector, see [CSV Protocol](../protocols/csv.md)
 
 For _store.json_ file example above _sources.xml_ file should be something like this:  
 
@@ -328,12 +422,14 @@ Once created you can use _WITSML browser_ to access WITSML log (see example belo
 
 This CSV to WITSML Log converted has limitation:
 
-- Can only be accessed locally
 - Ignores _queryOptions_ queries, i.e. _queryOptions: returnElements=all_
 
 
-## OPC protocol
-The LiveRig Collector depends on the Node Ids (Tags) values, among other information, to query OPC server properly. These values are mapped in the following JSON format, as below:
+## OPC data stream 
+
+The LiveRig Collector depends on the Node Ids (Tags) values, among other information, to query OPC server properly. 
+
+Below is a simple example configuration in store.json file for OPC to WITSML log converter:
 
 ```json
 {
@@ -346,7 +442,7 @@ The LiveRig Collector depends on the Node Ids (Tags) values, among other informa
     }
   },
   "endpoint": "http://127.0.0.1:1234/witsml/store",
-  "limit": 1234,
+  "limit": 5000,
   "purge": "300000",
   "rigs": {
     "NS04": {
@@ -371,8 +467,6 @@ The LiveRig Collector depends on the Node Ids (Tags) values, among other informa
 
 Each object under rigs is related to an **OPC-DA** or **OPC-UA** source, linking the `store.json` and `sources.xml` files through their **Rig Name**. 
 
-Some extra fields are responsible for an additional collector feature known as [OPC to WITSML protocol conversion](./../protocol-conversion.md). These optional fields are: `database`, `endpoint`, `limit` and `purge`. Once the `endpoint` and `database` are configured, a basic WITSML server will start backed by a PostgreSQL database to keep the data and enable the WITSML queries on top of it.
-
 The `alias` is used as a key reference for tags, units and types values.&#x20;
 
 | Name      | Description                        | Required                             | Default value |
@@ -385,7 +479,9 @@ The `alias` is used as a key reference for tags, units and types values.&#x20;
 
 **NOTE**: For **OPC-UA** sources, the tag field should be written as the following pattern: `ns=<namespaceindex>;<type>=<value>`
 
-## Complex type and date time tags
+More details to configure OPC client to gather data to Liverig collector, see [OPC-DA](../protocols/opc-da.md) and [OPC-UA](../protocols/opc-ua.md).
+
+### OPC complex type and date time tags
 
 Since LiveRig Collector version 5.0.0, it can be configured to extract field from object values in **OPC-UA** sources. 
 
